@@ -1,0 +1,58 @@
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>TODO - jsp servlet</title>
+    <link rel="stylesheet" type="text/css" href="./bower_components/todomvc-common/base.css">
+    <link rel="stylesheet" type="text/css" href="./bower_components/todomvc-app-css/index.css">
+</head>
+
+<body>
+
+<section class="todoapp">
+    <header class="header">
+        <h1>todos</h1>
+        <input class="new-todo" placeholder="What needs to be done?" autofocus="">
+    </header>
+    <section class="main">
+        <input class="toggle-all" id="toggle-all" type="checkbox">
+        <label for="toggle-all">Mark all as complete</label>
+        <ul class="todo-list">
+            <c:forEach items="<%= todoItems %>" var="todo">
+                <li data-id="${todo.id}" ${todo.status==1? "class='completed'":""}>
+                    <div class="view">
+                        <input class="toggle" value="${todo.status}">
+                        <label>${todo.content}</label>
+                        <button class="destroy"></button>
+                    </div>
+                    <input class="edit" value="${todo.content}">
+                </li>
+            </c:forEach>
+
+            <%--<li data-id="">--%>
+                <%--<div class="view">--%>
+                    <%--<input class="toggle" type="checkbox">--%>
+                    <%--<label>hihi</label>--%>
+                    <%--<button class="destroy"></button>--%>
+                <%--</div>--%>
+                <%--<input class="edit" value="hihi">--%>
+            <%--</li>--%>
+        </ul>
+    </section>
+    <footer class="footer" style="display: none;">
+        <span class="todo-count"><strong>0</strong> items left</span>
+        <ul class="filters">
+            <li>
+                <a class="selected" href="#/all">All</a>
+            </li>
+            <li>
+                <a href="#/active">Active</a>
+            </li>
+            <li>
+                <a href="#/completed">Completed</a>
+            </li>
+        </ul>
+
+    </footer>
+</section>
+<script  src="./bower_components/jquery/dist/jquery.min.js"></script>
+<script  src="./js/page.js"></script>
