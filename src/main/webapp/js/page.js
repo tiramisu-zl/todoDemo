@@ -1,48 +1,110 @@
 $(function () {
-    init();
-    var target = $(".todo-list");
-    var THIS = $('.new-todo');
+    getAllTodoList();
+    var todoListDom = $(".todo-list");
+    var addNewTodoInput = $('.new-todo');
 
-    function init(){
-        //get data from db
-        var dataList, listHtml = null;
+    function getAllTodoList() {
+        var dataList, listHtml = '';
         $.ajax({
-            url:"/index/",
-            type:"GET",
-            success:function(json_todo){
+            url: "/index/",
+            type: "GET",
+            success: function (json_todo) {
                 dataList = JSON.parse(json_todo);
-                dataList.forEach(function(item){
+                dataList.forEach(function (item) {
                     listHtml += concatString(item.id, item.content, item.status);
                 });
-                target.append(listHtml);
+                todoListDom.html(listHtml);
             }
         })
     }
-    THIS.keydown(function(e){
-        if(e.keyCode==13){
-            var content = THIS.val();
+
+    addNewTodoInput.keydown(function (e) {
+        if (e.keyCode == 13) {
+            var content = addNewTodoInput.val();
             $.ajax({
-                url:"/index/add",
-                data:{content:content},
-                type:"POST",
-                success:function(json_todo){
-                    var todo = JSON.parse(json_todo);
-                    target.append(concatString(todo.id,todo.name));
-                    THIS.val("");
+                url: "/add",
+                data: {content: content},
+                type: "POST",
+                success: function (result) {
+                    if (result === "success") {
+                        getAllTodoList();
+                        addNewTodoInput.val("");
+                    }
                 }
             })
         }
     });
 
-    function concatString(id,name,status){
+    todoListDom.delegate(".destroy", "click", function (e) {
+        var closest = $(e.target).closest("li");
+        var id = closest.data("id");
+        $.ajax({
+            url: "/del",
+            data: {id: id},
+            type: "POST",
+            success: function (result) {
+                if (result === "success") {
+                    getAllTodoList();
+                }
+            }
+        })
+    }).delegate(".toggle", "change", function (e) {
+        var target = $(e.target);
+        var closest = target.closest("li");
+        var id = closest.data("id");
+        var status = target.val();
+        $.ajax({
+            url: "/edit",
+            data: {id: id, status: status},
+            type: "POST",
+            success: function (result) {
+                if (result === "true") {
+                    closest.addClass("completed");
+                }else{
+                    closest.removeClass("completed");
+                }
+                target.val(result);
+            }
+        })
+    }).delegate("label", "dblclick", function(e){
+        var target = $(e.target);
+        var text = target.text();
+        var closest = target.closest("li");
+        closest.addClass("editing").find(".edit").val(text);
+    }).delegate(".edit", "keydown blur", function(e){
+        var target = $(e.target);
+        var closest = target.closest("li");
+        var id = closest.data("id");
+        var content = target.val();
+        if (e.keyCode === 13 || e.type === "focusout") {
+            editContent(closest, id, content);
+        }
+    });
+
+    function editContent(closest, id, content){
+        $.ajax({
+            url: "/edit",
+            data: {id:id, content:content},
+            type: "POST",
+            success: function (result) {
+                if(result){
+                    closest.removeClass("editing").find("label").text(result);
+                }
+            }
+        })
+    }
+
+    function concatString(id, content, status) {
+        var className = status ? "completed" : "";
+        var checked = status ? "checked" : "";
         var expectString =
-            "<li data-id=" + id + ">" +
-            "<div class='view'>" +
-            "<input class='toggle' type='checkbox' value='" + status + "'>" +
-            "<label>" + name + "</label>" +
-            "<button class='destroy'></button>" +
-            "</div>" +
-            "<input class='edit' value='123'>" +
+            "<li data-id=" + id + " class='" + className + "'>" +
+                "<div class='view'>" +
+            "<input class='toggle' type='checkbox' " + checked + " value='" + status + "'>" +
+                    "<label>" + content + "</label>" +
+                    "<button class='destroy'></button>" +
+                "</div>" +
+                "<input class='edit' value=''>" +
             "</li>";
         return expectString;
     }

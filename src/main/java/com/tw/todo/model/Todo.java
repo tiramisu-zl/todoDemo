@@ -8,6 +8,11 @@ public class Todo {
 
     public Todo() {}
 
+    public Todo(Integer id, boolean status) {
+        this.id = id;
+        this.status = status;
+    }
+
     public Todo(Integer id, String content, boolean status) {
         this.id = id;
         this. content = content;

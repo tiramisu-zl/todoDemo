@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 
-public class AddToDoServlet extends HttpServlet {
+public class DelToDoServlet extends HttpServlet {
 
     TodoRepository dao = new TodoRepository();
 
@@ -19,14 +19,10 @@ public class AddToDoServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         PrintWriter out = resp.getWriter();
 
-        String content = req.getParameter("content");
-        Integer id= 0;
-        boolean status = false;
-
-        Todo todo = new Todo(id,content,status);
+        String id = req.getParameter("id");
 
         try {
-            dao.addTodo(todo);
+            dao.delTodo(Integer.parseInt(id));
             out.print("success");
         } catch (Exception e) {
             e.printStackTrace();

@@ -17,25 +17,18 @@
         <input class="toggle-all" id="toggle-all" type="checkbox">
         <label for="toggle-all">Mark all as complete</label>
         <ul class="todo-list">
-            <c:forEach items="<%= todoItems %>" var="todo">
-                <li data-id="${todo.id}" ${todo.status==1? "class='completed'":""}>
-                    <div class="view">
-                        <input class="toggle" value="${todo.status}">
-                        <label>${todo.content}</label>
-                        <button class="destroy"></button>
-                    </div>
-                    <input class="edit" value="${todo.content}">
-                </li>
-            </c:forEach>
+            <!--<c:forEach items="<%= todoItems %>" var="todo">-->
+                <!--<li data-id="${todo.id}" ${todo.status==1? "class='completed'":""}>-->
+                    <!--<div class="view">-->
+                        <!--<input class="toggle" value="${todo.status}">-->
+                        <!--<label>${todo.content}</label>-->
+                        <!--<button class="destroy"></button>-->
+                    <!--</div>-->
+                    <!--<input class="edit" value="${todo.content}">-->
+                <!--</li>-->
+            <!--</c:forEach>-->
 
-            <%--<li data-id="">--%>
-                <%--<div class="view">--%>
-                    <%--<input class="toggle" type="checkbox">--%>
-                    <%--<label>hihi</label>--%>
-                    <%--<button class="destroy"></button>--%>
-                <%--</div>--%>
-                <%--<input class="edit" value="hihi">--%>
-            <%--</li>--%>
+
         </ul>
     </section>
     <footer class="footer" style="display: none;">
