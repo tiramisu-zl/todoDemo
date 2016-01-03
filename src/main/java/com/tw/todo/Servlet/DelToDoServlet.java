@@ -1,7 +1,6 @@
 package com.tw.todo.Servlet;
 
-import com.tw.todo.Dao.TodoRepository;
-import com.tw.todo.model.Todo;
+import com.tw.todo.service.TodoService;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -13,7 +12,7 @@ import java.io.PrintWriter;
 
 public class DelToDoServlet extends HttpServlet {
 
-    TodoRepository dao = new TodoRepository();
+    TodoService TodoService = new TodoService();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -22,8 +21,8 @@ public class DelToDoServlet extends HttpServlet {
         String id = req.getParameter("id");
 
         try {
-            dao.delTodo(Integer.parseInt(id));
-            out.print("success");
+            String result = TodoService.delTodoItem(Integer.parseInt(id));
+            out.print(result);
         } catch (Exception e) {
             e.printStackTrace();
         }

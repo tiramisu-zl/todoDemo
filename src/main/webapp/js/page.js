@@ -53,17 +53,19 @@ $(function () {
         var closest = target.closest("li");
         var id = closest.data("id");
         var status = target.val();
+        var content = target.next().text();
         $.ajax({
             url: "/edit",
-            data: {id: id, status: status},
+            data: {id: id, content:content, status: status},
             type: "POST",
             success: function (result) {
-                if (result === "true") {
+                var result = JSON.parse(result);
+                if (result.status) {
                     closest.addClass("completed");
                 }else{
                     closest.removeClass("completed");
                 }
-                target.val(result);
+                target.val(result.status);
             }
         })
     }).delegate("label", "dblclick", function(e){
@@ -76,19 +78,21 @@ $(function () {
         var closest = target.closest("li");
         var id = closest.data("id");
         var content = target.val();
+        var status = closest.find(".toggle").val();
         if (e.keyCode === 13 || e.type === "focusout") {
-            editContent(closest, id, content);
+            editContent(closest, id, content, status);
         }
     });
 
-    function editContent(closest, id, content){
+    function editContent(closest, id, content, status){
         $.ajax({
             url: "/edit",
-            data: {id:id, content:content},
+            data: {id:id, content:content, status:status},
             type: "POST",
             success: function (result) {
-                if(result){
-                    closest.removeClass("editing").find("label").text(result);
+                var result = JSON.parse(result);
+                if(result.content){
+                    closest.removeClass("editing").find("label").text(result.content);
                 }
             }
         })

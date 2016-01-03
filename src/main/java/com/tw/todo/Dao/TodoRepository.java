@@ -33,7 +33,7 @@ public class TodoRepository {
 
     public void updateTodoStatus(int id, boolean status) throws SQLException{
         Connection conn=DBUtil.getConnection();
-        String sql=" update todo_table " +
+        String sql="update todo_table " +
                 " set status=" + status +
                 " where id=" + id;
         PreparedStatement ptmt=conn.prepareStatement(sql);
@@ -74,7 +74,7 @@ public class TodoRepository {
         while (rs.next()){
             Todo t = new Todo();
             t.setId(rs.getInt("id"));
-            t.setContent(rs.getString("Content"));
+            t.setContent(rs.getString("content"));
             t.setStatus(rs.getBoolean("status"));
 
             todoList.add(t);
@@ -98,34 +98,3 @@ public class TodoRepository {
         return t;
     }
 }
-
-//public class TodoRepository {
-//
-//    List<Todo> todoList = new ArrayList<Todo>();
-//
-//    public List<Todo> getAll(){
-//        return todoList;
-//    }
-//
-//    public void addTodoItem(Todo item){
-//        todoList.add(item);
-//    }
-//
-//    public void delTodoItem(int id){
-//        Todo item = this.getItemById(id);
-//        todoList.remove(item);
-//    }
-//
-//    public void updateTodoItem(int id){
-//        Todo item = getItemById(id);
-//    }
-//
-//    private Todo getItemById(int id) {
-//        for(Todo todo:todoList){
-//            if(id == todo.getId()){
-//                return todo;
-//            }
-//        }
-//        return null;
-//    }
-//}

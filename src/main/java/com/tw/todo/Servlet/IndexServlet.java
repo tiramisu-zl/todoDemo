@@ -1,8 +1,8 @@
 package com.tw.todo.Servlet;
 
 import com.alibaba.fastjson.JSON;
-import com.tw.todo.Dao.TodoRepository;
 import com.tw.todo.model.Todo;
+import com.tw.todo.service.TodoService;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -16,31 +16,22 @@ import java.util.List;
 
 public class IndexServlet extends HttpServlet {
 
-    private List<Todo> todoList = new ArrayList<Todo>();
-    TodoRepository dao = new TodoRepository();
+    TodoService TodoService = new TodoService();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        resp.setCharacterEncoding("utf-8");
         PrintWriter out = resp.getWriter();
+
+        List<Todo> todoList = new ArrayList<Todo>();
+
         try {
-            todoList = dao.query();
+            todoList = TodoService.getTodoList();
         } catch (Exception e) {
             e.printStackTrace();
         }
         String jsonTodo = JSON.toJSONString(todoList);
         out.print(jsonTodo);
     }
-
-//    public void addTodo(Todo t) throws Exception {
-//        dao.addTodo(t);
-//    }
-//
-//    public void removeTodo(Integer id) throws Exception {
-//        dao.delTodo(id);
-//    }
-//
-//    public void updateTodo(Todo t) throws Exception {
-//        dao.updateTodo(t);
-//    }
 
 }

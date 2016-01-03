@@ -15,7 +15,7 @@ public class Todo {
 
     public Todo(Integer id, String content, boolean status) {
         this.id = id;
-        this. content = content;
+        this.content = content;
         this.status = status;
     }
 

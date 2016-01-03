@@ -1,7 +1,6 @@
 package com.tw.todo.Servlet;
 
-import com.tw.todo.Dao.TodoRepository;
-import com.tw.todo.model.Todo;
+import com.tw.todo.service.TodoService;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -13,7 +12,7 @@ import java.io.PrintWriter;
 
 public class AddToDoServlet extends HttpServlet {
 
-    TodoRepository dao = new TodoRepository();
+    TodoService TodoService = new TodoService();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -23,11 +22,9 @@ public class AddToDoServlet extends HttpServlet {
         Integer id= 0;
         boolean status = false;
 
-        Todo todo = new Todo(id,content,status);
-
         try {
-            dao.addTodo(todo);
-            out.print("success");
+            String result = TodoService.addTodoItem(id, content, status);
+            out.print(result);
         } catch (Exception e) {
             e.printStackTrace();
         }

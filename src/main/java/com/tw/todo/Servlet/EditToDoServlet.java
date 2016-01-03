@@ -1,7 +1,8 @@
 package com.tw.todo.Servlet;
 
-import com.tw.todo.Dao.TodoRepository;
+import com.alibaba.fastjson.JSON;
 import com.tw.todo.model.Todo;
+import com.tw.todo.service.TodoService;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -13,29 +14,29 @@ import java.io.PrintWriter;
 
 public class EditToDoServlet extends HttpServlet {
 
-    TodoRepository dao = new TodoRepository();
+    TodoService TodoService = new TodoService();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        resp.setCharacterEncoding("utf-8");
+
+        Todo todo = new Todo();
         PrintWriter out = resp.getWriter();
 
         String ids = req.getParameter("id");
         String status = req.getParameter("status");
         String content = req.getParameter("content");
-        Integer id= Integer.parseInt(ids);
+        Integer id = Integer.parseInt(ids);
+        Boolean St = !(new Boolean(status));
 
         try {
-            if(content instanceof String){
-                dao.updateTodoContent(id, content);
-                out.print(content);
-            }else{
-                Boolean St = !(new Boolean(status));
-                dao.updateTodoStatus(id, St);
-                out.print(St);
-            }
+            todo = TodoService.editTodoItem(id, content, St);
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        String jsonTodo = JSON.toJSONString(todo);
+        out.print(jsonTodo);
 
     }
 

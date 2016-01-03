@@ -9,7 +9,7 @@ public class DBUtil {
     private static final String DRIVER = "com.mysql.jdbc.Driver";
     private static final String URL="jdbc:mysql://127.0.0.1:3306/todo_table?characterEncoding=utf-8";
     private static final String USER="root";
-    private static final String PASSWORD="";
+    private static final String PASSWORD="admin";
 
 //    private static final String DRIVER = "org.hsqldb.jdbcDriver";
 //    private static final String URL="jdbc:hsqldb:file:todomvc";
