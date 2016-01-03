@@ -6,11 +6,10 @@ $(function () {
     function getAllTodoList() {
         var dataList, listHtml = '';
         $.ajax({
-            url: "/index/",
+            url: "/list",
             type: "GET",
             success: function (json_todo) {
-                dataList = JSON.parse(json_todo);
-                dataList.forEach(function (item) {
+                json_todo.forEach(function (item) {
                     listHtml += concatString(item.id, item.content, item.status);
                 });
                 todoListDom.html(listHtml);
@@ -26,7 +25,7 @@ $(function () {
                 data: {content: content},
                 type: "POST",
                 success: function (result) {
-                    if (result === "success") {
+                    if (result.content) {
                         getAllTodoList();
                         addNewTodoInput.val("");
                     }
@@ -55,11 +54,10 @@ $(function () {
         var status = target.val();
         var content = target.next().text();
         $.ajax({
-            url: "/edit",
+            url: "/edit/toggle",
             data: {id: id, content:content, status: status},
             type: "POST",
             success: function (result) {
-                var result = JSON.parse(result);
                 if (result.status) {
                     closest.addClass("completed");
                 }else{
@@ -86,11 +84,10 @@ $(function () {
 
     function editContent(closest, id, content, status){
         $.ajax({
-            url: "/edit",
+            url: "/edit/content",
             data: {id:id, content:content, status:status},
             type: "POST",
             success: function (result) {
-                var result = JSON.parse(result);
                 if(result.content){
                     closest.removeClass("editing").find("label").text(result.content);
                 }
