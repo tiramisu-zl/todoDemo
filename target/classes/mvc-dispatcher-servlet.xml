@@ -22,7 +22,8 @@
     <!-- HandlerMapping, 无需配置， Spring MVC可以默认启动。 DefaultAnnotationHandlerMapping
         annotation-driven HandlerMapping -->
 
-    <!-- 扩充了注解驱动，可以将请求参数绑定到控制器参数 -->
+    <!-- 扩充了注解驱动，注册了DefaultAnnotationHandlerMapping和AnnotationMethodHandlerAdapter两个bean，
+    配置一些messageconverter。即解决了@Controller注解的使用前提配置-->
     <mvc:annotation-driven />
 
     <!-- 静态资源处理， css， js， imgs -->
@@ -30,24 +31,6 @@
 
 
     <!-- 配置ViewResolver。 可以用多个ViewResolver。 使用order属性排序。 InternalResourceViewResolver放在最后。 -->
-    <bean class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
-        <property name="order" value="1" />
-        <property name="mediaTypes">
-            <map>
-                <entry key="json" value="application/json" />
-                <entry key="xml" value="application/xml" />
-                <entry key="htm" value="text/html" />
-            </map>
-        </property>
-
-        <property name="defaultViews">
-            <list>
-                <!-- JSON View -->
-                <bean class="org.springframework.web.servlet.view.json.MappingJackson2JsonView"></bean>
-            </list>
-        </property>
-        <property name="ignoreAcceptHeader" value="true" />
-    </bean>
 
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="viewClass"
