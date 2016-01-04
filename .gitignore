@@ -4,6 +4,9 @@
 
 *.iml
 
+#compile code
+target
+
 ## Directory-based project format:
 .idea/
 bower_components
