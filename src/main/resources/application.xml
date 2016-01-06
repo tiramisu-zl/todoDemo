@@ -12,4 +12,19 @@
     <context:component-scan base-package="com.tw.todo">
         <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller" />
     </context:component-scan>
+
+    <!--<bean id="dataSourceReferenceDate" class="org.apache.commons.dbcp.BasicDataSource" scope="singleton"> </bean>-->
+
+    <bean id="dataSourceReferenceDate" class="org.springframework.jdbc.datasource.SingleConnectionDataSource" scope="singleton">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver"></property>
+        <property name="url" value="jdbc:mysql://127.0.0.1:3306/todo_table?characterEncoding=utf-8"></property>
+        <property name="username" value="root"></property>
+        <property name="password" value="admin"></property>
+    </bean>
+
+    <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate" scope="singleton">
+
+        <qualifier value="jd" />
+        <property name="dataSource" ref="dataSourceReferenceDate"></property>
+    </bean>
 </beans>

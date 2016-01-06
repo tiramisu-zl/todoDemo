@@ -1,7 +1,9 @@
 package com.tw.todo.model;
 
 
-public class Todo {
+import java.io.Serializable;
+
+public class Todo implements Serializable{
     private Integer id;
     private String content;
     private boolean status;
